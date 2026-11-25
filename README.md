@@ -72,58 +72,62 @@ The 3D annotations pair each object instance with a local STL mesh and its 6DoF 
 
 This example uses the outlines reconstructed from STL geometry and pose JSON. After projection into the RGB view with the scene's occluders, the instance labels agreed with the dataset mask at all 921,600 pixels.
 
-[Download the STL and pose example](samples/e00000-stl-poses.zip). The example ZIP includes poses and oriented boxes in both the left IR and RGB frames. The full set of 3,072 per-camera pose and oriented-box JSON files will be distributed on Zenodo alongside the Train and Eval image data. The shared mesh catalog for the full dataset is in preparation.
+[Download the STL and pose example](samples/e00000-stl-poses.zip). The example ZIP includes poses and oriented boxes in both the left IR and RGB frames. The Train and held-out Eval archives include 2,460 per-camera pose and oriented-box JSON files. The [shared mesh catalog](meshes/) contains 24 STL files, one per object shape represented in those splits. The bottle meshes include the rigid container, cap, and label. The simulated liquid remains part of the images.
 
 
-### Pair the Train images with the 3D annotations
+### Pair images with the shared meshes
 
-Each Zenodo Train or Eval archive includes `objects_3d.json` directly in every scene folder, alongside the images, disparity maps, and masks. Extract the archive you need into your data directory. Train archives are organized by camera; the held-out Eval archive contains all three cameras.
-
-The Train archives use these camera-specific paths inside the extracted data directory.
-
-| Camera | Camera folder |
-| --- | --- |
-| D435 | `dataset_tabletop/` |
-| D555 | `dataset_by_camera/D555/dataset1000/` |
-| OAK-D with a simulated projector | `dataset_by_camera/OAK-D-active/dataset1000/` |
-
-Each camera folder uses the same layout. Here is one scene.
+Extract the Zenodo Train or Eval archive into your data directory. Copy [the `meshes/` directory](meshes/) from this repository into the same directory. Train downloads are organized by camera. The held-out Eval archive contains all three cameras, with matching scene IDs across camera views.
 
 ```text
-<camera folder>/
-├── calibration.json
-└── samples/
-    └── 00000/
-        ├── rgb.png
-        ├── ir_left.png
-        ├── ir_right.png
-        ├── disparity_left.pfm
-        ├── disparity_rgb.pfm
-        ├── segmentation_rgb.png
-        ├── objects_3d.json
-        └── cables_3d.json  # only for scenes with cables
+random-dot-stereo-data/
+├── meshes/
+│   ├── catalog.json
+│   └── *.stl
+├── train/
+│   ├── D435/
+│   │   ├── calibration.json
+│   │   └── samples/00100/
+│   │       ├── rgb.png
+│   │       ├── ir_left.png
+│   │       ├── ir_right.png
+│   │       ├── disparity_left.pfm
+│   │       ├── disparity_rgb.pfm
+│   │       ├── segmentation_rgb.png
+│   │       ├── objects_3d.json
+│   │       └── cables_3d.json
+│   ├── D555/
+│   └── OAK-D-active/
+└── eval/
+    ├── D435/
+    ├── D555/
+    └── OAK-D-active/
 ```
 
-To select Train samples, use records with `"split": "train"`. The held-out Eval uses the same per-scene layout under `evaluation_holdout_v1/<camera>/samples/<scene_id>/`.
+Every camera uses the same layout. The disparity validity, stereo visibility, and transparent material masks are also in each scene folder. Scenes with cables have a `cables_3d.json` containing cable instance IDs and OBBs in the left IR and RGB frames. Cable labels remain in the RGB mask.
 
-Scenes containing cables also have a `cables_3d.json`. It lists the cable instance IDs and OBBs in the left IR and RGB camera frames. Cable labels remain in the RGB mask.
-
-For example, run this from the common data directory. Paths in the JSON are relative to the scene folder. The instance ID identifies the pixel value in the PNG mask.
+Paths in `objects_3d.json` are relative to that scene directory. Use `mesh_id` to identify the shared geometry. Given a vertex `p_stl` in meters, compute `p_rgb = R @ (scale_xyz * p_stl) + t`, with `R` and `t` taken from `T_rgb_from_mesh`. The OBBs are already expressed in their respective camera frames.
 
 ```python
 import json
 from pathlib import Path
 
-scene = Path("dataset_tabletop/samples/00000")
+import numpy as np
+
+scene = Path("train/D435/samples/00100")
 annotation = json.loads((scene / "objects_3d.json").read_text(encoding="utf-8"))
-assert annotation["split"] == "train"
+instance = annotation["instances"][0]
 
 rgb_path = scene / annotation["rgb_image"]
 mask_path = scene / annotation["rgb_instance_mask"]
-instance = annotation["instances"][0]
+stl_path = (scene / instance["mesh_stl"]).resolve()
 instance_id = instance["instance_id"]
-pose_in_rgb = instance["T_rgb_from_mesh"]
-obb_in_rgb = instance["obb_rgb"]
+scale = np.asarray(instance["scale_xyz"])
+pose = np.asarray(instance["T_rgb_from_mesh"])
+
+# vertices_stl is an [N, 3] array read from stl_path, in meters.
+def to_rgb_camera(vertices_stl):
+    return (vertices_stl * scale) @ pose[:3, :3].T + pose[:3, 3]
 ```
 
 

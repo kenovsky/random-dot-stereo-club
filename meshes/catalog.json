@@ -1,0 +1,131 @@
+{
+  "version": 1,
+  "units": "metres",
+  "convention": "p_camera = T_camera_from_mesh @ [scale_xyz * p_stl, 1]",
+  "bottle_geometry": "Rigid bottle, cap and label surfaces; internal liquid omitted",
+  "camera_annotations": 2460,
+  "scene_instances": 5021,
+  "max_reconstruction_error_m": 2.316277915695095e-07,
+  "meshes": [
+    {
+      "mesh_id": "acrylic_prism",
+      "file": "acrylic_prism.stl",
+      "object_class": "acrylic_prism"
+    },
+    {
+      "mesh_id": "apple",
+      "file": "apple.stl",
+      "object_class": "apple"
+    },
+    {
+      "mesh_id": "apple-02",
+      "file": "apple-02.stl",
+      "object_class": "apple"
+    },
+    {
+      "mesh_id": "bolt",
+      "file": "bolt.stl",
+      "object_class": "bolt"
+    },
+    {
+      "mesh_id": "bowl",
+      "file": "bowl.stl",
+      "object_class": "bowl"
+    },
+    {
+      "mesh_id": "camera_lens_cap",
+      "file": "camera_lens_cap.stl",
+      "object_class": "camera_lens_cap"
+    },
+    {
+      "mesh_id": "can",
+      "file": "can.stl",
+      "object_class": "can"
+    },
+    {
+      "mesh_id": "carton",
+      "file": "carton.stl",
+      "object_class": "carton"
+    },
+    {
+      "mesh_id": "ceramic_egg_cup",
+      "file": "ceramic_egg_cup.stl",
+      "object_class": "ceramic_egg_cup"
+    },
+    {
+      "mesh_id": "desk_bell",
+      "file": "desk_bell.stl",
+      "object_class": "desk_bell"
+    },
+    {
+      "mesh_id": "glass_insulator",
+      "file": "glass_insulator.stl",
+      "object_class": "glass_insulator"
+    },
+    {
+      "mesh_id": "knurled_control_knob",
+      "file": "knurled_control_knob.stl",
+      "object_class": "knurled_control_knob"
+    },
+    {
+      "mesh_id": "mug",
+      "file": "mug.stl",
+      "object_class": "mug"
+    },
+    {
+      "mesh_id": "pencil",
+      "file": "pencil.stl",
+      "object_class": "pencil"
+    },
+    {
+      "mesh_id": "pet",
+      "file": "pet.stl",
+      "object_class": "pet"
+    },
+    {
+      "mesh_id": "rubber_doorstop",
+      "file": "rubber_doorstop.stl",
+      "object_class": "rubber_doorstop"
+    },
+    {
+      "mesh_id": "shampoo",
+      "file": "shampoo.stl",
+      "object_class": "shampoo"
+    },
+    {
+      "mesh_id": "sponge",
+      "file": "sponge.stl",
+      "object_class": "sponge"
+    },
+    {
+      "mesh_id": "stemmed_goblet",
+      "file": "stemmed_goblet.stl",
+      "object_class": "stemmed_goblet"
+    },
+    {
+      "mesh_id": "tape",
+      "file": "tape.stl",
+      "object_class": "tape"
+    },
+    {
+      "mesh_id": "terminal_block",
+      "file": "terminal_block.stl",
+      "object_class": "terminal_block"
+    },
+    {
+      "mesh_id": "thermos",
+      "file": "thermos.stl",
+      "object_class": "thermos"
+    },
+    {
+      "mesh_id": "tumbler",
+      "file": "tumbler.stl",
+      "object_class": "tumbler"
+    },
+    {
+      "mesh_id": "wine",
+      "file": "wine.stl",
+      "object_class": "wine"
+    }
+  ]
+}
