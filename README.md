@@ -1,49 +1,60 @@
 # Random Dot Stereo Club
 
-For the love of random dots and stereo vision.
+*For the love of random dots and stereo vision.*
 
-Blenderで作った机上シーンの、ドット投影付きステレオデータセットです。D435、D555、合成ドット投影器を追加したOAK-Dモデルで、同じ配置を撮像しています。透明な物体も含みます。
+> **Work in progress.** The full **Train** and **Eval** downloads are coming to Zenodo. The links will appear here once the uploads are ready. In the meantime, grab a [sample](#play-with-the-samples) and have fun with it!
 
-## サンプル
+Point a random-dot projector at a plain tabletop and suddenly your stereo pair has a pattern to match. That’s what I love about a RealSense setup like the D435 or D555. **Two IR cameras, a color camera, and a random-dot projector!** The projector gives the IR pair texture to work with, and the color camera adds another view. If we already have all three views, why not see what learning-based methods can measure with them?
 
-同じ評価シーンを3機種で撮像した例です。左右IR、正解視差、LAS2-Hの推定視差、絶対誤差、左右からの可視性を並べています。
+I wanted a realistic synthetic dataset that would give more people a chance to try those ideas. So I made one. Welcome to the club.
 
-| D435 | D555 | OAK-D + synthetic projector |
+## Play with the samples
+
+Download the same tabletop scene rendered with three camera configurations. Each ZIP includes the RGB image, left and right IR images, ground-truth disparity maps, masks, and scene metadata. Grab the matching calibration JSON from the next section.
+
+| Camera | Sample data | Visual preview |
 | --- | --- | --- |
-| [プレビュー](samples/D435.png) | [プレビュー](samples/D555.png) | [プレビュー](samples/OAK-D-active.png) |
+| D435 | [Download ZIP](samples/D435-e00000.zip) | [View preview](samples/D435.png) |
+| D555 | [Download ZIP](samples/D555-e00000.zip) | [View preview](samples/D555.png) |
+| OAK-D with a simulated projector | [Download ZIP](samples/OAK-D-active-e00000.zip) | [View preview](samples/OAK-D-active.png) |
 
-![OAK-Dの左右IR画像と視差の比較](samples/OAK-D-active.png)
+The previews show the stereo pair, ground-truth disparity, a LAS2-H prediction, absolute error, and the stereo visibility mask.
 
-## データセット
+![OAK-D stereo pair, ground truth, prediction, and error](samples/OAK-D-active.png)
 
-画像は1280×720です。各サンプルに左右IR、RGB、左IR・RGB視点の正解視差PFM、RGBに整列したインスタンスマスク、視差の有効性・ステレオ可視性・透明材を示すマスク、設定JSONが含まれます。左右IRはシーン内で共通の投影パターンを観測し、再生成に使えるシードを設定JSONに記録しています。
+## Camera calibration
 
-評価セットは学習用とは別に、未使用の物体形状、屋内HDRI、PBRテクスチャを使って作成しています。正解視差は各視点で最初に当たった表面に対応します。距離では切り分けず、対応視点からの可視性は別マスクで提供します。
+[D435](calibration/D435.json) · [D555](calibration/D555.json) · [OAK-D with simulated projector](calibration/OAK-D-active.json)
 
-本体のダウンロード先はZenodoで公開後、ここにDOIを掲載します。利用条件は公開時にZenodoのレコードに明記します。
+The JSON files contain intrinsics for 1280 × 720 images, the stereo baseline, transforms from the left IR camera to the other views, and the projector position and field of view. The optical axes point right (+X), down (+Y), and forward (+Z). Intrinsics are in pixels and translations are in meters. The simulation uses ideal pinhole cameras with zero lens distortion and nominal camera geometry. The OAK-D variant adds a simulated dot projector.
 
-## カメラパラメータ
+For positive left IR disparity `d`, depth is `Z = fx_left × baseline / d`. Back-project the pixel with `X_left = Z × inv(K_left) × [u, v, 1]ᵀ`. To project it into RGB, apply `X_rgb = R × X_left + t_m`, then project with `K_rgb`.
 
-[D435](calibration/D435.json) · [D555](calibration/D555.json) · [OAK-D-active](calibration/OAK-D-active.json)
+## Convert disparity to depth with PyTorch
 
-JSONに1280×720の内部行列 `K`、左右IRの基線、左IRから各カメラへの外部変換、投影器の位置と画角を記載しています。座標軸は右が +X、下が +Y、前が +Z。3D座標と並進はメートル、内部行列はピクセルです。画像カメラは歪みなしのピンホールモデルです。値は合成データ生成時の設定で、実機個体の工場校正値は使用していません。OAK-D-activeの投影器は合成用に追加した仕様です。
-
-左IR視差 `d` から深度を求めるには `Z = fx_left × baseline / d` を使い、`Z × inv(K_left) × [u, v, 1]ᵀ` で左IRの3D座標に戻します。RGBへの投影は `X_rgb = R × X_left + t_m` で座標を変換し、`K_rgb` で投影します。`disparity_rgb.pfm` はRGB画素上での左右IR視差で、RGB独自の焦点距離で定義した視差ではありません。
-
-## PyTorchで視差から深度画像を作る
-
-[使用例](examples/disparity_to_depth.py)は、校正JSONを読み、仮のネットワーク関数 `predict_disparity(left, right)` が返す視差から、左IR視点の深度画像を作ります。仮の関数はどの画素にも32 pxを返すため、深度画像は正面を向いた平面になります。
+The [example script](examples/disparity_to_depth.py) loads the calibration JSON and runs a placeholder `predict_disparity(left, right)` function. The placeholder returns 32 pixels everywhere, so the output is a fronto-parallel plane.
 
 ```bash
 python examples/disparity_to_depth.py --calibration calibration/D435.json --output depth_m.npy
 ```
 
-自分のモデルを使う場合は、左右の入力テンソルをモデル用に前処理し、`predict_disparity` の中身をモデルの推論に差し替えます。戻り値は入力と同じデバイスにある `[B, H, W]` の左基準視差です。ネットワークのパディングを外し、サイズ変更した場合は画像サイズと視差のpxスケールを校正時の解像度に戻します。その後は共通の `disparity_to_depth` で変換できます。
+To use your own network, replace the example input tensors with a preprocessed, rectified stereo pair and implement `predict_disparity` with your model. Return left-reference disparity in pixels as a `[B, H, W]` tensor on the input device. Remove model padding and, if you resized the images, restore both the calibrated image dimensions and the disparity scale.
 
-CUDAが使える環境では、推論用のテンソル作成から深度変換までGPU上で処理します。`--device cpu` または `--device cuda` で明示指定できます。保存結果は `[H, W]` のfloat32 NumPy配列で、単位はメートルです。ゼロ・負値・非有限の視差はNaNになり、1 px未満でも正の視差は変換します。
+The example uses CUDA automatically when available. Use `--device cuda` or `--device cpu` to choose explicitly. The conversion runs on the input device and produces a float32 depth image in meters. Zero, negative, and non-finite disparities become NaN. Positive disparities below 1 px are converted as well.
 
+## Dataset
+
+Scenes are rendered in Blender at 1280 × 720. Each camera configuration includes paired IR views, RGB, ground-truth disparity on the left IR and RGB pixel grids, RGB-aligned instance masks, and masks for geometric validity, stereo visibility, and transparent materials.
+
+Both disparity maps store left-minus-right IR disparity in pixels. In `disparity_rgb.pfm`, those values are sampled on the RGB pixel grid. Ground truth comes from the first surface hit, including transparent surfaces and surfaces occluded in the other IR view. Pixels with no surface hit contain NaN. Camera views share the scene geometry, and the two IR views share a random-dot pattern generated from the scene’s recorded seed.
+
+The **Eval** set uses held-out object shapes, indoor HDRIs, and textures. Paired scene IDs let you compare the same layout across all three camera configurations.
+
+| Download | Status |
+| --- | --- |
+| Train | Zenodo link coming soon |
+| Eval | Zenodo link coming soon |
 
 ## 🍺
 
-もしこのデータセットが役に立ったなら、どこかで会ったときにビール一杯おごってね。  
-If this dataset helped you and we ever meet, you can buy me a beer.
+If this dataset was useful to you and we ever meet, feel free to buy me a beer.
