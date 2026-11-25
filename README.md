@@ -62,6 +62,19 @@ The **Eval** set uses held-out object shapes, indoor HDRIs, and textures. Paired
 | Train | Zenodo link coming soon |
 | Eval | Zenodo link coming soon |
 
+## For 3D object recognition
+
+The 3D annotations pair each object instance with a local STL mesh and its 6DoF pose at capture time. Instance IDs match the RGB segmentation masks. Mesh coordinates and pose translations are in meters. The JSON gives both `T_left_ir_from_mesh` and `T_rgb_from_mesh` as row-major 4 × 4 matrices acting on homogeneous column vectors. Use the corresponding camera intrinsics to project the mesh into an image. `obb_left_ir` and `obb_rgb` give the oriented box center, full XYZ side lengths, and box-to-camera rotation in each view. The box axes follow the mesh frame. Meshes are shared across camera views of the same scene.
+
+![Outlines of three STL objects projected onto the D435 RGB image using their ground-truth poses](samples/stl-pose-overlay.jpg)
+
+[View the same scene with the oriented 3D bounding boxes projected onto RGB.](samples/obb-pose-overlay.jpg)
+
+This example uses the outlines reconstructed from STL geometry and pose JSON. After projection into the RGB view with the scene's occluders, the instance labels agreed with the dataset mask at all 921,600 pixels.
+
+[Download the STL and pose example](samples/e00000-stl-poses.zip). The example ZIP includes poses and oriented boxes in both the left IR and RGB frames. [Download the full 3D annotation bundle](https://github.com/kenovsky/random-dot-stereo-club/releases/tag/3d-annotations-v1). It contains 6,425 STL files in one `meshes/` folder and 3,072 per-camera JSON files covering the original and held-out sets. Use scene IDs and camera names to pair the annotations with the image datasets.
+
+
 ## 🍺
 
 If this dataset was useful to you and we ever meet, feel free to buy me a beer.
