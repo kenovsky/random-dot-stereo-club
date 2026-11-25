@@ -90,13 +90,13 @@ random-dot-stereo-data/
 ├── sample/
 │   ├── D435/
 │   │   ├── calibration.json
-│   │   └── samples/e00000/
+│   │   └── e00000/
 │   ├── D555/
 │   └── OAK-D-active/
 ├── train/
 │   ├── D435/
 │   │   ├── calibration.json
-│   │   └── samples/00100/
+│   │   └── 00100/
 │   │       ├── rgb.png
 │   │       ├── ir_left.png
 │   │       ├── ir_right.png
@@ -113,7 +113,7 @@ random-dot-stereo-data/
     └── OAK-D-active/
 ```
 
-Each camera folder keeps its shared `calibration.json` at the top level. Its `samples/` directory contains one folder per scene ID. This applies to `sample/`, `train/`, and `eval/`. The disparity validity, stereo visibility, and transparent material masks are also in each scene folder. Scenes with cables have a `cables_3d.json` containing cable instance IDs and OBBs in the left IR and RGB frames. Cable labels remain in the RGB mask.
+Each camera folder keeps its shared `calibration.json` at the top level. The scene folders sit directly alongside `calibration.json` and are named by scene ID. This applies to `sample/`, `train/`, and `eval/`. The disparity validity, stereo visibility, and transparent material masks are also in each scene folder. Scenes with cables have a `cables_3d.json` containing cable instance IDs and OBBs in the left IR and RGB frames. Cable labels remain in the RGB mask.
 
 Paths in `objects_3d.json` are relative to that scene directory. Use `mesh_id` to identify the shared geometry. Given a vertex `p_stl` in meters, compute `p_rgb = R @ (scale_xyz * p_stl) + t`, with `R` and `t` taken from `T_rgb_from_mesh`. The OBBs are already expressed in their respective camera frames.
 
@@ -123,7 +123,7 @@ from pathlib import Path
 
 import numpy as np
 
-scene = Path("sample/D435/samples/e00000")
+scene = Path("sample/D435/e00000")
 annotation = json.loads((scene / "objects_3d.json").read_text(encoding="utf-8"))
 instance = annotation["instances"][0]
 
