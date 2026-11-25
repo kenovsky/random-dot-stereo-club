@@ -1,0 +1,200 @@
+{
+  "model": "D555",
+  "image_size_wh_px": [
+    1280,
+    720
+  ],
+  "baseline_m": 0.095,
+  "optical_axes": "+X right, +Y down, +Z forward",
+  "projection": "Ideal pinhole for image cameras. Zero lens distortion in the simulation.",
+  "extrinsic_equation": "X_view = R * X_left_ir + t_m (column vectors)",
+  "views": {
+    "left": {
+      "center_in_left_ir_m": [
+        0,
+        0,
+        0
+      ],
+      "left_ir_to_view": {
+        "R": [
+          [
+            1,
+            0,
+            0
+          ],
+          [
+            0,
+            1,
+            0
+          ],
+          [
+            0,
+            0,
+            1
+          ]
+        ],
+        "t_m": [
+          -0.0,
+          -0.0,
+          -0.0
+        ]
+      },
+      "K": [
+        [
+          674.4192801798159,
+          0,
+          639.5
+        ],
+        [
+          0,
+          674.4192801798159,
+          359.5
+        ],
+        [
+          0,
+          0,
+          1
+        ]
+      ]
+    },
+    "right": {
+      "center_in_left_ir_m": [
+        0.095,
+        0,
+        0
+      ],
+      "left_ir_to_view": {
+        "R": [
+          [
+            1,
+            0,
+            0
+          ],
+          [
+            0,
+            1,
+            0
+          ],
+          [
+            0,
+            0,
+            1
+          ]
+        ],
+        "t_m": [
+          -0.095,
+          -0.0,
+          -0.0
+        ]
+      },
+      "K": [
+        [
+          674.4192801798159,
+          0,
+          639.5
+        ],
+        [
+          0,
+          674.4192801798159,
+          359.5
+        ],
+        [
+          0,
+          0,
+          1
+        ]
+      ]
+    },
+    "rgb": {
+      "center_in_left_ir_m": [
+        0.059,
+        0,
+        0
+      ],
+      "left_ir_to_view": {
+        "R": [
+          [
+            1,
+            0,
+            0
+          ],
+          [
+            0,
+            1,
+            0
+          ],
+          [
+            0,
+            0,
+            1
+          ]
+        ],
+        "t_m": [
+          -0.059,
+          -0.0,
+          -0.0
+        ]
+      },
+      "K": [
+        [
+          640.0,
+          0,
+          639.5
+        ],
+        [
+          0,
+          640.0,
+          359.5
+        ],
+        [
+          0,
+          0,
+          1
+        ]
+      ]
+    },
+    "projector": {
+      "center_in_left_ir_m": [
+        0.0375,
+        0,
+        0
+      ],
+      "left_ir_to_view": {
+        "R": [
+          [
+            1,
+            0,
+            0
+          ],
+          [
+            0,
+            1,
+            0
+          ],
+          [
+            0,
+            0,
+            1
+          ]
+        ],
+        "t_m": [
+          -0.0375,
+          -0.0,
+          -0.0
+        ]
+      },
+      "fov_hv_deg": [
+        90,
+        63
+      ]
+    }
+  },
+  "provenance": [
+    "Nominal D450 drawing offsets, parallel rectified poses, synthetic dot pattern and NIR response; individual factory calibration unavailable."
+  ],
+  "sources": [
+    "https://realsenseai.com/wp-content/uploads/2025/07/D555-Datasheet-v1.1.pdf",
+    "https://www.realsenseai.com/products/555-series/",
+    "https://www.realsenseai.com/wp-content/uploads/2025/08/Intel-RealSense-D400-Series-Datasheet-August-2025.pdf"
+  ]
+}

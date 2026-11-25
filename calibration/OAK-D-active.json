@@ -1,0 +1,200 @@
+{
+  "model": "OAK-D-active",
+  "image_size_wh_px": [
+    1280,
+    720
+  ],
+  "baseline_m": 0.075,
+  "optical_axes": "+X right, +Y down, +Z forward",
+  "projection": "Ideal pinhole for image cameras. Zero lens distortion in the simulation.",
+  "extrinsic_equation": "X_view = R * X_left_ir + t_m (column vectors)",
+  "views": {
+    "left": {
+      "center_in_left_ir_m": [
+        0,
+        0,
+        0
+      ],
+      "left_ir_to_view": {
+        "R": [
+          [
+            1,
+            0,
+            0
+          ],
+          [
+            0,
+            1,
+            0
+          ],
+          [
+            0,
+            0,
+            1
+          ]
+        ],
+        "t_m": [
+          -0.0,
+          -0.0,
+          -0.0
+        ]
+      },
+      "K": [
+        [
+          880.8844291015512,
+          0,
+          639.5
+        ],
+        [
+          0,
+          880.8844291015512,
+          359.5
+        ],
+        [
+          0,
+          0,
+          1
+        ]
+      ]
+    },
+    "right": {
+      "center_in_left_ir_m": [
+        0.075,
+        0,
+        0
+      ],
+      "left_ir_to_view": {
+        "R": [
+          [
+            1,
+            0,
+            0
+          ],
+          [
+            0,
+            1,
+            0
+          ],
+          [
+            0,
+            0,
+            1
+          ]
+        ],
+        "t_m": [
+          -0.075,
+          -0.0,
+          -0.0
+        ]
+      },
+      "K": [
+        [
+          880.8844291015512,
+          0,
+          639.5
+        ],
+        [
+          0,
+          880.8844291015512,
+          359.5
+        ],
+        [
+          0,
+          0,
+          1
+        ]
+      ]
+    },
+    "rgb": {
+      "center_in_left_ir_m": [
+        0.0375,
+        0,
+        0
+      ],
+      "left_ir_to_view": {
+        "R": [
+          [
+            1,
+            0,
+            0
+          ],
+          [
+            0,
+            1,
+            0
+          ],
+          [
+            0,
+            0,
+            1
+          ]
+        ],
+        "t_m": [
+          -0.0375,
+          -0.0,
+          -0.0
+        ]
+      },
+      "K": [
+        [
+          931.2057783503649,
+          0,
+          639.5
+        ],
+        [
+          0,
+          931.2057783503649,
+          359.5
+        ],
+        [
+          0,
+          0,
+          1
+        ]
+      ]
+    },
+    "projector": {
+      "center_in_left_ir_m": [
+        0.01875,
+        0,
+        0
+      ],
+      "left_ir_to_view": {
+        "R": [
+          [
+            1,
+            0,
+            0
+          ],
+          [
+            0,
+            1,
+            0
+          ],
+          [
+            0,
+            0,
+            1
+          ]
+        ],
+        "t_m": [
+          -0.01875,
+          -0.0,
+          -0.0
+        ]
+      },
+      "fov_hv_deg": [
+        90,
+        63
+      ]
+    }
+  },
+  "provenance": [
+    "Nominal OAK-D FOV and baseline. Perfectly rectified pinhole views, centered RGB between mono cameras, synthetic 850 nm projector at one quarter of baseline. No per-device factory calibration. Standard OAK-D has no projector."
+  ],
+  "sources": [
+    "https://docs.luxonis.com/hardware/products/OAK-D",
+    "https://docs.luxonis.com/hardware/sensors/OV9282",
+    "https://docs.luxonis.com/hardware/platform/depth/configuring-stereo-depth"
+  ]
+}

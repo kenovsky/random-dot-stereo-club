@@ -1,0 +1,197 @@
+{
+  "model": "D435",
+  "image_size_wh_px": [
+    1280,
+    720
+  ],
+  "baseline_m": 0.05,
+  "optical_axes": "+X right, +Y down, +Z forward",
+  "projection": "Ideal pinhole for image cameras. Zero lens distortion in the simulation.",
+  "extrinsic_equation": "X_view = R * X_left_ir + t_m (column vectors)",
+  "views": {
+    "left": {
+      "center_in_left_ir_m": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "left_ir_to_view": {
+        "R": [
+          [
+            1,
+            0,
+            0
+          ],
+          [
+            0,
+            1,
+            0
+          ],
+          [
+            0,
+            0,
+            1
+          ]
+        ],
+        "t_m": [
+          -0.0,
+          -0.0,
+          -0.0
+        ]
+      },
+      "K": [
+        [
+          674.4192801798159,
+          0,
+          639.5
+        ],
+        [
+          0,
+          674.4192801798159,
+          359.5
+        ],
+        [
+          0,
+          0,
+          1
+        ]
+      ]
+    },
+    "right": {
+      "center_in_left_ir_m": [
+        0.05,
+        0.0,
+        0.0
+      ],
+      "left_ir_to_view": {
+        "R": [
+          [
+            1,
+            0,
+            0
+          ],
+          [
+            0,
+            1,
+            0
+          ],
+          [
+            0,
+            0,
+            1
+          ]
+        ],
+        "t_m": [
+          -0.05,
+          -0.0,
+          -0.0
+        ]
+      },
+      "K": [
+        [
+          674.4192801798159,
+          0,
+          639.5
+        ],
+        [
+          0,
+          674.4192801798159,
+          359.5
+        ],
+        [
+          0,
+          0,
+          1
+        ]
+      ]
+    },
+    "rgb": {
+      "center_in_left_ir_m": [
+        -0.015,
+        0.0,
+        0.0
+      ],
+      "left_ir_to_view": {
+        "R": [
+          [
+            1,
+            0,
+            0
+          ],
+          [
+            0,
+            1,
+            0
+          ],
+          [
+            0,
+            0,
+            1
+          ]
+        ],
+        "t_m": [
+          0.015,
+          -0.0,
+          -0.0
+        ]
+      },
+      "K": [
+        [
+          924.277379745929,
+          0,
+          639.5
+        ],
+        [
+          0,
+          924.277379745929,
+          359.5
+        ],
+        [
+          0,
+          0,
+          1
+        ]
+      ]
+    },
+    "projector": {
+      "center_in_left_ir_m": [
+        0.025,
+        0.0,
+        0.0
+      ],
+      "left_ir_to_view": {
+        "R": [
+          [
+            1,
+            0,
+            0
+          ],
+          [
+            0,
+            1,
+            0
+          ],
+          [
+            0,
+            0,
+            1
+          ]
+        ],
+        "t_m": [
+          -0.025,
+          -0.0,
+          -0.0
+        ]
+      },
+      "fov_hv_deg": [
+        90,
+        63
+      ]
+    }
+  },
+  "provenance": [
+    "D435 nominal rectified stereo approximation",
+    "Approximate 15 mm shift left from the left IR optical center; parallel axes assumed"
+  ],
+  "sources": []
+}
