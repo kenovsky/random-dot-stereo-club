@@ -72,7 +72,7 @@ The 3D annotations pair each object instance with a local STL mesh and its 6DoF 
 
 This example uses the outlines reconstructed from STL geometry and pose JSON. After projection into the RGB view with the scene's occluders, the instance labels agreed with the dataset mask at all 921,600 pixels.
 
-[Download the STL and pose example](samples/e00000-stl-poses.zip). The example ZIP includes poses and oriented boxes in both the left IR and RGB frames. [Download the full 3D annotation bundle](https://github.com/kenovsky/random-dot-stereo-club/archive/refs/heads/3d-data-v1.zip). Extract the download, run `python assemble.py` with Python 3.11 or newer, then unzip the verified dataset archive. The bundle contains 6,425 STL files in one `meshes/` folder and 3,072 per-camera JSON files covering the original and held-out sets. Use scene IDs and camera names to pair the annotations with the image datasets.
+[Download the STL and pose example](samples/e00000-stl-poses.zip). The example ZIP includes poses and oriented boxes in both the left IR and RGB frames. The full set of 3,072 per-camera pose and oriented-box JSON files will be distributed on Zenodo alongside the Train and Eval image data. The STL mesh archive will be available separately here on GitHub. Pair the files using the camera and scene IDs.
 
 
 ## 🍺
