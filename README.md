@@ -75,6 +75,56 @@ This example uses the outlines reconstructed from STL geometry and pose JSON. Af
 [Download the STL and pose example](samples/e00000-stl-poses.zip). The example ZIP includes poses and oriented boxes in both the left IR and RGB frames. The full set of 3,072 per-camera pose and oriented-box JSON files will be distributed on Zenodo alongside the Train and Eval image data. The [GitHub mesh bundle](https://github.com/kenovsky/random-dot-stereo-club/archive/refs/heads/3d-data-v1.zip) includes the STL meshes and their matching annotations together. Extract the download, run `python assemble.py` with Python 3.11 or newer, then unzip the verified archive. Pair 3D annotations with the image datasets by camera and scene ID.
 
 
+### Pair the Train images with the 3D annotations
+
+The GitHub bundle includes all **38 object classes** as **6,425 instance meshes**. Each STL preserves the shape and size used in its scene. The three camera views share the same STL for a given instance.
+
+Once the Zenodo download is available, place the image folders and the extracted 3D bundle under one common directory. Keep the folder names shown below. You can download and use just one camera.
+
+```text
+random-dot-stereo-data/
+├── annotations_3d_v1/
+│   ├── meshes/
+│   └── original/
+│       ├── D435/00000.json
+│       ├── D555/00000.json
+│       └── OAK-D-active/00000.json
+├── dataset_tabletop/                       # D435
+│   ├── calibration.json
+│   └── samples/00000/rgb.png
+└── dataset_by_camera/
+    ├── D555/dataset1000/
+    │   ├── calibration.json
+    │   └── samples/00000/rgb.png
+    └── OAK-D-active/dataset1000/
+        ├── calibration.json
+        └── samples/00000/rgb.png
+```
+
+Each image folder also contains the left and right IR images, instance mask, and disparity maps. To select Train annotations, keep the records with `"split": "train"` in `original/<camera>/`. The separate held-out annotations are in `heldout/<camera>/`, with images under `evaluation_holdout_v1/<camera>/samples/<scene_id>/`.
+
+For example, run this from the common directory to locate the D555 image, mask, and mesh for scene `00000`. Paths in the annotation are relative to the annotation file's directory. The instance ID identifies the pixel value in the PNG mask.
+
+```python
+import json
+from pathlib import Path
+
+annotation_file = Path("annotations_3d_v1/original/D555/00000.json")
+annotation = json.loads(annotation_file.read_text(encoding="utf-8"))
+assert annotation["split"] == "train"
+
+base = annotation_file.parent
+rgb_path = (base / annotation["rgb_image"]).resolve()
+mask_path = (base / annotation["rgb_instance_mask"]).resolve()
+
+instance = annotation["instances"][0]
+stl_path = (base / instance["mesh_stl"]).resolve()
+instance_id = instance["instance_id"]
+pose_in_rgb = instance["T_rgb_from_mesh"]
+obb_in_rgb = instance["obb_rgb"]
+```
+
+
 ## 🍺
 
 If this dataset was useful to you and we ever meet, feel free to buy me a beer.
