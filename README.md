@@ -17,13 +17,16 @@ These are renders from the dataset. RGB is shown at a larger size to make the ma
 
 ## Play with the samples
 
-Download the same tabletop scene rendered with three camera configurations. Each ZIP includes the RGB image, left and right IR images, ground-truth disparity maps, masks, and scene metadata. Grab the matching calibration JSON from the next section.
+[Download the sample ZIP](samples/sample-e00000.zip) for the same tabletop scene captured with all three camera configurations. It includes the images, ground-truth disparity, masks, calibration, and pose and OBB JSONs.
 
-| Camera | Sample data | Visual preview |
-| --- | --- | --- |
-| D435 | [Download ZIP](samples/D435-e00000.zip) | [View preview](samples/D435.png) |
-| D555 | [Download ZIP](samples/D555-e00000.zip) | [View preview](samples/D555.png) |
-| OAK-D with a simulated projector | [Download ZIP](samples/OAK-D-active-e00000.zip) | [View preview](samples/OAK-D-active.png) |
+To use the shared meshes, download or clone this repository, then extract the sample ZIP beside `meshes/`. It creates a `sample/` folder. The Train and Eval archives will create sibling folders.
+
+| Camera | Visual preview |
+| --- | --- |
+| D435 | [View preview](samples/D435.png) |
+| D555 | [View preview](samples/D555.png) |
+| OAK-D with a simulated projector | [View preview](samples/OAK-D-active.png) |
+
 
 The previews show the stereo pair, ground-truth disparity, a LAS2-H prediction, absolute error, and the stereo visibility mask.
 
@@ -72,7 +75,7 @@ The 3D annotations pair each object instance with a local STL mesh and its 6DoF 
 
 This example uses the outlines reconstructed from STL geometry and pose JSON. After projection into the RGB view with the scene's occluders, the instance labels agreed with the dataset mask at all 921,600 pixels.
 
-[Download the STL and pose example](samples/e00000-stl-poses.zip). The example ZIP includes poses and oriented boxes in both the left IR and RGB frames. The Train and held-out Eval archives include 2,460 per-camera pose and oriented-box JSON files. The [shared mesh catalog](meshes/) contains 24 STL files, one per object shape represented in those splits. The bottle meshes include the rigid container, cap, and label. The simulated liquid remains part of the images.
+The [sample ZIP](samples/sample-e00000.zip) includes poses and oriented boxes in both the left IR and RGB frames. The Train and held-out Eval archives include 2,460 per-camera pose and oriented-box JSON files. The [shared mesh catalog](meshes/) contains 24 STL files, one per object shape represented in those splits. The bottle meshes include the rigid container, cap, and label. The simulated liquid remains part of the images.
 
 
 ### Pair images with the shared meshes
@@ -84,6 +87,12 @@ random-dot-stereo-data/
 ├── meshes/
 │   ├── catalog.json
 │   └── *.stl
+├── sample/
+│   ├── D435/
+│   │   ├── calibration.json
+│   │   └── samples/e00000/
+│   ├── D555/
+│   └── OAK-D-active/
 ├── train/
 │   ├── D435/
 │   │   ├── calibration.json
@@ -104,7 +113,7 @@ random-dot-stereo-data/
     └── OAK-D-active/
 ```
 
-Every camera uses the same layout. The disparity validity, stereo visibility, and transparent material masks are also in each scene folder. Scenes with cables have a `cables_3d.json` containing cable instance IDs and OBBs in the left IR and RGB frames. Cable labels remain in the RGB mask.
+Each camera folder keeps its shared `calibration.json` at the top level. Its `samples/` directory contains one folder per scene ID. This applies to `sample/`, `train/`, and `eval/`. The disparity validity, stereo visibility, and transparent material masks are also in each scene folder. Scenes with cables have a `cables_3d.json` containing cable instance IDs and OBBs in the left IR and RGB frames. Cable labels remain in the RGB mask.
 
 Paths in `objects_3d.json` are relative to that scene directory. Use `mesh_id` to identify the shared geometry. Given a vertex `p_stl` in meters, compute `p_rgb = R @ (scale_xyz * p_stl) + t`, with `R` and `t` taken from `T_rgb_from_mesh`. The OBBs are already expressed in their respective camera frames.
 
@@ -114,7 +123,7 @@ from pathlib import Path
 
 import numpy as np
 
-scene = Path("train/D435/samples/00100")
+scene = Path("sample/D435/samples/e00000")
 annotation = json.loads((scene / "objects_3d.json").read_text(encoding="utf-8"))
 instance = annotation["instances"][0]
 
