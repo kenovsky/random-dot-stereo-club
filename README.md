@@ -72,14 +72,12 @@ The 3D annotations pair each object instance with a local STL mesh and its 6DoF 
 
 This example uses the outlines reconstructed from STL geometry and pose JSON. After projection into the RGB view with the scene's occluders, the instance labels agreed with the dataset mask at all 921,600 pixels.
 
-[Download the STL and pose example](samples/e00000-stl-poses.zip). The example ZIP includes poses and oriented boxes in both the left IR and RGB frames. The full set of 3,072 per-camera pose and oriented-box JSON files will be distributed on Zenodo alongside the Train and Eval image data. The [GitHub mesh bundle](https://github.com/kenovsky/random-dot-stereo-club/archive/refs/heads/3d-data-v1.zip) includes the STL meshes and their matching annotations together. Extract the download, run `python assemble.py` with Python 3.11 or newer, then unzip the verified archive. Pair 3D annotations with the image datasets by camera and scene ID.
+[Download the STL and pose example](samples/e00000-stl-poses.zip). The example ZIP includes poses and oriented boxes in both the left IR and RGB frames. The full set of 3,072 per-camera pose and oriented-box JSON files will be distributed on Zenodo alongside the Train and Eval image data. The shared mesh catalog for the full dataset is in preparation.
 
 
 ### Pair the Train images with the 3D annotations
 
-The GitHub bundle includes all **38 object classes** as **6,425 instance meshes**. Each STL preserves the shape and size used in its scene. The three camera views share the same STL for a given instance.
-
-Each Zenodo Train or Eval archive includes `objects_3d.json` directly in every scene folder, alongside the images, disparity maps, and masks. Extract the archive you need, then extract the GitHub STL bundle into the same data directory to resolve the mesh references. Train archives are organized by camera; the held-out Eval archive contains all three cameras.
+Each Zenodo Train or Eval archive includes `objects_3d.json` directly in every scene folder, alongside the images, disparity maps, and masks. Extract the archive you need into your data directory. Train archives are organized by camera; the held-out Eval archive contains all three cameras.
 
 ```text
 random-dot-stereo-data/
@@ -113,13 +111,10 @@ assert annotation["split"] == "train"
 rgb_path = scene / annotation["rgb_image"]
 mask_path = scene / annotation["rgb_instance_mask"]
 instance = annotation["instances"][0]
-stl_path = (scene / instance["mesh_stl"]).resolve()
 instance_id = instance["instance_id"]
 pose_in_rgb = instance["T_rgb_from_mesh"]
 obb_in_rgb = instance["obb_rgb"]
 ```
-
-The GitHub bundle also includes the earlier centralized JSON layout in `annotations_3d_v1/original/` and `annotations_3d_v1/heldout/`. When using those JSONs, resolve paths from the directory containing the JSON file.
 
 
 ## 🍺
