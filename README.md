@@ -8,6 +8,13 @@ Point a random-dot projector at a plain tabletop and suddenly your stereo pair h
 
 I wanted a realistic synthetic dataset that would give more people a chance to try those ideas. So I made one. Welcome to the club.
 
+## Dataset at a glance
+
+[![Three tabletop scenes with large RGB renders, left and right IR images, ground-truth disparity, and RGB instance masks](samples/dataset-overview.jpg)](samples/dataset-overview.jpg)
+
+These are renders from the dataset. RGB is shown at a larger size to make the materials, reflections, and transparent objects easier to inspect. Click the image to zoom in.
+
+
 ## Play with the samples
 
 Download the same tabletop scene rendered with three camera configurations. Each ZIP includes the RGB image, left and right IR images, ground-truth disparity maps, masks, and scene metadata. Grab the matching calibration JSON from the next section.
