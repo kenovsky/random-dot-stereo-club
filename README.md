@@ -98,6 +98,8 @@ random-dot-stereo-data/
 
 Each scene folder also contains the left and right IR images and disparity maps. To select Train samples, use records with `"split": "train"`. The held-out Eval uses the same per-scene layout under `evaluation_holdout_v1/<camera>/samples/<scene_id>/`.
 
+Scenes containing cables also have a `cables_3d.json`. It lists the cable instance IDs and OBBs in the left IR and RGB camera frames. Cable labels remain in the RGB mask.
+
 For example, run this from the common data directory. Paths in the JSON are relative to the scene folder. The instance ID identifies the pixel value in the PNG mask.
 
 ```python
