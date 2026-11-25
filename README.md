@@ -79,7 +79,7 @@ This example uses the outlines reconstructed from STL geometry and pose JSON. Af
 
 The GitHub bundle includes all **38 object classes** as **6,425 instance meshes**. Each STL preserves the shape and size used in its scene. The three camera views share the same STL for a given instance.
 
-When the Zenodo downloads are ready, extract the images and scene annotation ZIP into the same directory. This puts an `objects_3d.json` next to the images for each scene. Extract the GitHub STL bundle into that directory as well to resolve its mesh references. You can download just the camera you need.
+Each Zenodo Train or Eval archive includes `objects_3d.json` directly in every scene folder, alongside the images, disparity maps, and masks. Extract the archive you need, then extract the GitHub STL bundle into the same data directory to resolve the mesh references. Train archives are organized by camera; the held-out Eval archive contains all three cameras.
 
 ```text
 random-dot-stereo-data/
