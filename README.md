@@ -79,22 +79,32 @@ This example uses the outlines reconstructed from STL geometry and pose JSON. Af
 
 Each Zenodo Train or Eval archive includes `objects_3d.json` directly in every scene folder, alongside the images, disparity maps, and masks. Extract the archive you need into your data directory. Train archives are organized by camera; the held-out Eval archive contains all three cameras.
 
+The Train archives use these camera-specific paths inside the extracted data directory.
+
+| Camera | Camera folder |
+| --- | --- |
+| D435 | `dataset_tabletop/` |
+| D555 | `dataset_by_camera/D555/dataset1000/` |
+| OAK-D with a simulated projector | `dataset_by_camera/OAK-D-active/dataset1000/` |
+
+Each camera folder uses the same layout. Here is one scene.
+
 ```text
-random-dot-stereo-data/
-├── annotations_3d_v1/
-│   └── meshes/
-├── dataset_tabletop/                       # D435
-│   ├── calibration.json
-│   └── samples/00000/
-│       ├── rgb.png
-│       ├── segmentation_rgb.png
-│       └── objects_3d.json
-└── dataset_by_camera/
-    ├── D555/dataset1000/samples/00000/objects_3d.json
-    └── OAK-D-active/dataset1000/samples/00000/objects_3d.json
+<camera folder>/
+├── calibration.json
+└── samples/
+    └── 00000/
+        ├── rgb.png
+        ├── ir_left.png
+        ├── ir_right.png
+        ├── disparity_left.pfm
+        ├── disparity_rgb.pfm
+        ├── segmentation_rgb.png
+        ├── objects_3d.json
+        └── cables_3d.json  # only for scenes with cables
 ```
 
-Each scene folder also contains the left and right IR images and disparity maps. To select Train samples, use records with `"split": "train"`. The held-out Eval uses the same per-scene layout under `evaluation_holdout_v1/<camera>/samples/<scene_id>/`.
+To select Train samples, use records with `"split": "train"`. The held-out Eval uses the same per-scene layout under `evaluation_holdout_v1/<camera>/samples/<scene_id>/`.
 
 Scenes containing cables also have a `cables_3d.json`. It lists the cable instance IDs and OBBs in the left IR and RGB camera frames. Cable labels remain in the RGB mask.
 
