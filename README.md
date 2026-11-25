@@ -79,50 +79,45 @@ This example uses the outlines reconstructed from STL geometry and pose JSON. Af
 
 The GitHub bundle includes all **38 object classes** as **6,425 instance meshes**. Each STL preserves the shape and size used in its scene. The three camera views share the same STL for a given instance.
 
-Once the Zenodo download is available, place the image folders and the extracted 3D bundle under one common directory. Keep the folder names shown below. You can download and use just one camera.
+When the Zenodo downloads are ready, extract the images and scene annotation ZIP into the same directory. This puts an `objects_3d.json` next to the images for each scene. Extract the GitHub STL bundle into that directory as well to resolve its mesh references. You can download just the camera you need.
 
 ```text
 random-dot-stereo-data/
 ├── annotations_3d_v1/
-│   ├── meshes/
-│   └── original/
-│       ├── D435/00000.json
-│       ├── D555/00000.json
-│       └── OAK-D-active/00000.json
+│   └── meshes/
 ├── dataset_tabletop/                       # D435
 │   ├── calibration.json
-│   └── samples/00000/rgb.png
+│   └── samples/00000/
+│       ├── rgb.png
+│       ├── segmentation_rgb.png
+│       └── objects_3d.json
 └── dataset_by_camera/
-    ├── D555/dataset1000/
-    │   ├── calibration.json
-    │   └── samples/00000/rgb.png
-    └── OAK-D-active/dataset1000/
-        ├── calibration.json
-        └── samples/00000/rgb.png
+    ├── D555/dataset1000/samples/00000/objects_3d.json
+    └── OAK-D-active/dataset1000/samples/00000/objects_3d.json
 ```
 
-Each image folder also contains the left and right IR images, instance mask, and disparity maps. To select Train annotations, keep the records with `"split": "train"` in `original/<camera>/`. The separate held-out annotations are in `heldout/<camera>/`, with images under `evaluation_holdout_v1/<camera>/samples/<scene_id>/`.
+Each scene folder also contains the left and right IR images and disparity maps. To select Train samples, use records with `"split": "train"`. The held-out Eval uses the same per-scene layout under `evaluation_holdout_v1/<camera>/samples/<scene_id>/`.
 
-For example, run this from the common directory to locate the D555 image, mask, and mesh for scene `00000`. Paths in the annotation are relative to the annotation file's directory. The instance ID identifies the pixel value in the PNG mask.
+For example, run this from the common data directory. Paths in the JSON are relative to the scene folder. The instance ID identifies the pixel value in the PNG mask.
 
 ```python
 import json
 from pathlib import Path
 
-annotation_file = Path("annotations_3d_v1/original/D555/00000.json")
-annotation = json.loads(annotation_file.read_text(encoding="utf-8"))
+scene = Path("dataset_tabletop/samples/00000")
+annotation = json.loads((scene / "objects_3d.json").read_text(encoding="utf-8"))
 assert annotation["split"] == "train"
 
-base = annotation_file.parent
-rgb_path = (base / annotation["rgb_image"]).resolve()
-mask_path = (base / annotation["rgb_instance_mask"]).resolve()
-
+rgb_path = scene / annotation["rgb_image"]
+mask_path = scene / annotation["rgb_instance_mask"]
 instance = annotation["instances"][0]
-stl_path = (base / instance["mesh_stl"]).resolve()
+stl_path = (scene / instance["mesh_stl"]).resolve()
 instance_id = instance["instance_id"]
 pose_in_rgb = instance["T_rgb_from_mesh"]
 obb_in_rgb = instance["obb_rgb"]
 ```
+
+The GitHub bundle also includes the earlier centralized JSON layout in `annotations_3d_v1/original/` and `annotations_3d_v1/heldout/`. When using those JSONs, resolve paths from the directory containing the JSON file.
 
 
 ## 🍺
