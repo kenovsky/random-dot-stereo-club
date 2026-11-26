@@ -168,6 +168,20 @@ The 5 mm metric counts missing predictions as failures. Silhouette-band MAE uses
 
 On the balancing board (view 0010), several thin ribs around the central hub are clearer after fine-tuning. The panels are rectified and cropped. Depth uses the same color scale across methods and is shown within the valid scan region. White gaps indicate missing depth or pixels outside that region. Source data by Voynov et al. (2023). [Skoltech3D](https://skoltech3d.appliedai.tech/) · [CC BY-NC 4.0](https://creativecommons.org/licenses/by-nc/4.0/)
 
+### Synthetic container evaluation
+
+I also compared the same two LAS2-H checkpoints on a separate D435 synthetic Eval split with cluttered tabletops and shallow storage bins. The table reports mean absolute disparity error in pixels, averaged across scenes. Evaluation uses stereo-visible pixels whose object labels can be matched to the RGB ground truth.
+
+| Region | Scenes | Released LAS2-H | Fine-tuned LAS2-H |
+| --- | ---: | ---: | ---: |
+| Container | 40 | 0.275 px | **0.154 px** |
+| Near the rim | 40 | 0.900 px | **0.380 px** |
+| Objects inside the container | 30 | 0.541 px | **0.256 px** |
+
+[![Synthetic D435 container evaluation showing left IR, ground-truth disparity, released LAS2-H, and fine-tuned LAS2-H](samples/d435-container-disparity-comparison.png)](samples/d435-container-disparity-comparison.png)
+
+In this example, fine-tuning reduces disparity artifacts along the front and right edges of the container. Several objects stand out more clearly from the bin floor. The three disparity panels use the same color scale.
+
 ## License
 
 You can use the synthetic dataset commercially under CC BY 4.0. Please credit the dataset and follow the license terms. The Skoltech3D comparison figure is shared under CC BY-NC 4.0. See [LICENSE](LICENSE) for the applicable files and attribution.
