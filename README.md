@@ -146,6 +146,24 @@ def to_rgb_camera(vertices_stl):
 ```
 
 
+## LAS2-H fine-tuning experiment
+
+I fine-tuned the released LAS2-H weights for 3,000 steps, using one 256 × 512 crop per scene per epoch over all 1,000 D435 v2 Train scenes for three epochs. On 48 held-out synthetic D435 Eval scenes from v1, I measured stereo-visible object surfaces 2–20 mm above the tabletop. Mean height error fell from **6.82 to 4.03 mm**. The share of those pixels predicted below half their ground-truth height fell from **52.7% to 14.1%**. The reported values are averages across scenes.
+
+I also ran the three methods on eight Skoltech3D D435 views of two objects, using the same rectified real IR pairs for both LAS2-H models and independent structured-light scans as ground truth.
+
+| Method | Depth MAE on common valid object pixels ↓ | Object pixels within 5 mm ↑ | Silhouette-band MAE ↓ |
+| --- | ---: | ---: | ---: |
+| D435 device depth | 6.53 mm | 43.6% | 6.78 mm |
+| Released LAS2-H | 4.56 mm | 73.0% | 11.01 mm |
+| LAS2-H fine-tuned on synthetic IR | 3.34 mm | 81.7% | 6.09 mm |
+
+The 5 mm metric counts missing predictions as failures. Silhouette-band MAE uses each method's valid pixels within three pixels of the scan silhouette. On this two-object subset, the released LAS2-H improved overall depth MAE over device depth, and fine-tuning further reduced it. Fine-tuning also reduced silhouette-band MAE. The experiment used a single lighting condition with a fixed projector state. [Skoltech3D dataset and paper](https://skoltech3d.appliedai.tech/)
+
+## Acknowledgements
+
+Thank you to Junpeng Jing and the Lite Any Stereo team for releasing LAS2-H and its pretrained weights. This experiment builds on *Lite Any Stereo V2: Faster and Stronger Efficient Zero-Shot Stereo Matching* (Jing et al., 2026). [Paper](https://arxiv.org/abs/2606.24457) · [Code](https://github.com/TomTomTommi/LiteAnyStereo)
+
 ## 🍺
 
 If this dataset was useful to you and we ever meet, feel free to buy me a beer.
