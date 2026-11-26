@@ -152,6 +152,8 @@ I fine-tuned the released LAS2-H weights for 3,000 steps, using one 256 × 512 c
 
 I also ran the three methods on eight Skoltech3D D435 views of two objects, using the same rectified real IR pairs for both LAS2-H models and independent structured-light scans as ground truth.
 
+I used Skoltech3D solely for this non-commercial evaluation. Fine-tuning used only the synthetic D435 v2 Train split. This repository reports aggregate metrics from the real-data evaluation. [Skoltech3D license](https://skoltech3d.appliedai.tech/#license)
+
 | Method | Depth MAE on common valid object pixels ↓ | Object pixels within 5 mm ↑ | Silhouette-band MAE ↓ |
 | --- | ---: | ---: | ---: |
 | D435 device depth | 6.53 mm | 43.6% | 6.78 mm |
