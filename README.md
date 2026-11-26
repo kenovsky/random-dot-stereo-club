@@ -168,7 +168,7 @@ The 5 mm metric counts missing predictions as failures. Silhouette-band MAE uses
 
 On the balancing board (view 0010), several thin ribs around the central hub are clearer after fine-tuning. The panels are rectified and cropped. Depth uses the same color scale across methods and is shown within the valid scan region. White gaps indicate missing depth or pixels outside that region. Source data by Voynov et al. (2023). [Skoltech3D](https://skoltech3d.appliedai.tech/) · [CC BY-NC 4.0](https://creativecommons.org/licenses/by-nc/4.0/)
 
-## Acknowledgements
+## Thanks!
 
 Thank you to Junpeng Jing and the Lite Any Stereo team for releasing LAS2-H and its pretrained weights. This experiment builds on *Lite Any Stereo V2: Faster and Stronger Efficient Zero-Shot Stereo Matching* (Jing et al., 2026). [Paper](https://arxiv.org/abs/2606.24457) · [Code](https://github.com/TomTomTommi/LiteAnyStereo)
 
