@@ -2,7 +2,7 @@
 
 *For the love of random dots and stereo vision.*
 
-> **Work in progress.** The full **Train** and **Eval** downloads are coming to Zenodo. The links will appear here once the uploads are ready. In the meantime, grab a [sample](#play-with-the-samples) and have fun with it!
+> **Dataset v1 is available.** [Download Train, Eval, Challenge, and shared STL meshes on Zenodo](https://doi.org/10.5281/zenodo.24564844), or try a [sample](#play-with-the-samples).
 
 Point a random-dot projector at a plain tabletop and suddenly your stereo pair has a pattern to match. That’s what I love about a RealSense setup like the D435 or D555. **Two IR cameras, a color camera, and a random-dot projector!** The projector gives the IR pair texture to work with, and the color camera adds another view. If we already have all three views, why not see what learning-based methods can measure with them?
 
@@ -60,10 +60,16 @@ Both disparity maps store left-minus-right IR disparity in pixels. In `disparity
 
 The **Eval** set uses held-out object shapes, indoor HDRIs, and textures. Paired scene IDs let you compare the same layout across all three camera configurations.
 
-| Download | Status |
+Download the archives from the [Zenodo v1 record](https://doi.org/10.5281/zenodo.24564844).
+
+| Archive | Contents |
 | --- | --- |
-| Train | Zenodo link coming soon |
-| Eval | Zenodo link coming soon |
+| `d435-train-v1.zip` | 1,000 D435 scenes |
+| `d555-train-v1.zip` | 1,000 D555 scenes |
+| `oak-d-active-train-v1.zip` | 1,000 OAK-D scenes |
+| `eval-v1.zip` | 200 scenes per camera configuration |
+| `challenge-v1.zip` | 3 scenes per camera configuration |
+| `shared-meshes-v1.zip` | Shared STL meshes and mesh catalog |
 
 ## For 3D object recognition
 
@@ -75,12 +81,12 @@ The 3D annotations pair each object instance with a local STL mesh and its 6DoF 
 
 This example uses the outlines reconstructed from STL geometry and pose JSON. After projection into the RGB view with the scene's occluders, the instance labels agreed with the dataset mask at all 921,600 pixels.
 
-The [sample ZIP](samples/sample-e00000.zip) includes poses and oriented boxes in both the left IR and RGB frames. The Train and held-out Eval archives include 2,460 per-camera pose and oriented-box JSON files. The [shared mesh catalog](meshes/) contains 24 STL files, one per object shape represented in those splits. The bottle meshes include the rigid container, cap, and label. The simulated liquid remains part of the images.
+The [sample ZIP](samples/sample-e00000.zip) includes poses and oriented boxes in both the left IR and RGB frames. The v1 Train, Eval, and Challenge archives include a per-scene `objects_3d.json` in each camera sample. Use the mesh catalog from `shared-meshes-v1.zip` with these archives. The bottle meshes include the rigid container, cap, and label. The simulated liquid remains part of the images.
 
 
 ### Pair images with the shared meshes
 
-Extract the Zenodo Train or Eval archive into your data directory. Copy [the `meshes/` directory](meshes/) from this repository into the same directory. Train downloads are organized by camera. The held-out Eval archive contains all three cameras, with matching scene IDs across camera views.
+Extract the v1 data archives and `shared-meshes-v1.zip` into the same data directory. Train downloads are organized by camera. Eval and Challenge each contain all three cameras, with matching scene IDs across camera views.
 
 ```text
 random-dot-stereo-data/
