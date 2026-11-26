@@ -170,7 +170,7 @@ On the balancing board (view 0010), several thin ribs around the central hub are
 
 ## License
 
-The synthetic dataset is licensed under CC BY 4.0. The Skoltech3D comparison figure is shared under CC BY-NC 4.0. See [LICENSE](LICENSE) for the applicable files and attribution.
+You can use the synthetic dataset commercially under CC BY 4.0. Please credit the dataset and follow the license terms. The Skoltech3D comparison figure is shared under CC BY-NC 4.0. See [LICENSE](LICENSE) for the applicable files and attribution.
 
 ## Thanks!
 
@@ -180,4 +180,4 @@ Thank you to Oleg Voynov and the Skoltech3D team for releasing the real D435 cap
 
 ## 🍺
 
-If this dataset was useful to you and we ever meet, feel free to buy me a beer.
+If this dataset was useful to you and we ever meet, feel free to buy me a beer. The beer is entirely optional.
