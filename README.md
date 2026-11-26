@@ -152,7 +152,7 @@ I fine-tuned the released LAS2-H weights for 3,000 steps, using one 256 × 512 c
 
 I also ran the three methods on eight Skoltech3D D435 views of two objects, using the same rectified real IR pairs for both LAS2-H models and independent structured-light scans as ground truth.
 
-I used Skoltech3D solely for this non-commercial evaluation. Fine-tuning used only the synthetic D435 v2 Train split. This repository reports aggregate metrics from the real-data evaluation. [Skoltech3D license](https://skoltech3d.appliedai.tech/#license)
+I used Skoltech3D solely for this non-commercial evaluation. Fine-tuning used only the synthetic D435 v2 Train split. [Skoltech3D license](https://skoltech3d.appliedai.tech/#license)
 
 Dataset reference — Voynov et al. (2023), *Multi-Sensor Large-Scale Dataset for Multi-View 3D Reconstruction*, CVPR. [Paper](https://openaccess.thecvf.com/content/CVPR2023/html/Voynov_Multi-Sensor_Large-Scale_Dataset_for_Multi-View_3D_Reconstruction_CVPR_2023_paper.html) · [Dataset](https://skoltech3d.appliedai.tech/)
 
@@ -163,6 +163,10 @@ Dataset reference — Voynov et al. (2023), *Multi-Sensor Large-Scale Dataset fo
 | LAS2-H fine-tuned on synthetic IR | 3.34 mm | 81.7% | 6.09 mm |
 
 The 5 mm metric counts missing predictions as failures. Silhouette-band MAE uses each method's valid pixels within three pixels of the scan silhouette. On this two-object subset, the released LAS2-H improved overall depth MAE over device depth, and fine-tuning further reduced it. Fine-tuning also reduced silhouette-band MAE. The experiment used a single lighting condition with a fixed projector state. [Skoltech3D dataset and paper](https://skoltech3d.appliedai.tech/)
+
+[![Real D435 balancing board comparison showing the left IR image, scan reference, device depth, released LAS2-H, and LAS2-H after 3,000 fine-tuning steps](samples/skoltech3d-balancing-board-comparison.png)](samples/skoltech3d-balancing-board-comparison.png)
+
+On the balancing board (view 0010), several thin ribs around the central hub are clearer after fine-tuning. The panels are rectified and cropped. Depth uses the same color scale across methods and is shown within the valid scan region. White gaps indicate missing depth or pixels outside that region. Source data by Voynov et al. (2023). [Skoltech3D](https://skoltech3d.appliedai.tech/) · [CC BY-NC 4.0](https://creativecommons.org/licenses/by-nc/4.0/)
 
 ## Acknowledgements
 
