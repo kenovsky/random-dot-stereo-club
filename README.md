@@ -154,6 +154,8 @@ I also ran the three methods on eight Skoltech3D D435 views of two objects, usin
 
 I used Skoltech3D solely for this non-commercial evaluation. Fine-tuning used only the synthetic D435 v2 Train split. This repository reports aggregate metrics from the real-data evaluation. [Skoltech3D license](https://skoltech3d.appliedai.tech/#license)
 
+Dataset reference — Voynov et al. (2023), *Multi-Sensor Large-Scale Dataset for Multi-View 3D Reconstruction*, CVPR. [Paper](https://openaccess.thecvf.com/content/CVPR2023/html/Voynov_Multi-Sensor_Large-Scale_Dataset_for_Multi-View_3D_Reconstruction_CVPR_2023_paper.html) · [Dataset](https://skoltech3d.appliedai.tech/)
+
 | Method | Depth MAE on common valid object pixels ↓ | Object pixels within 5 mm ↑ | Silhouette-band MAE ↓ |
 | --- | ---: | ---: | ---: |
 | D435 device depth | 6.53 mm | 43.6% | 6.78 mm |
@@ -165,6 +167,8 @@ The 5 mm metric counts missing predictions as failures. Silhouette-band MAE uses
 ## Acknowledgements
 
 Thank you to Junpeng Jing and the Lite Any Stereo team for releasing LAS2-H and its pretrained weights. This experiment builds on *Lite Any Stereo V2: Faster and Stronger Efficient Zero-Shot Stereo Matching* (Jing et al., 2026). [Paper](https://arxiv.org/abs/2606.24457) · [Code](https://github.com/TomTomTommi/LiteAnyStereo)
+
+Thank you to Oleg Voynov and the Skoltech3D team for releasing the real D435 captures and structured-light reference scans used in this evaluation.
 
 ## 🍺
 
