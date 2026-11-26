@@ -1,0 +1,30 @@
+# Licensing
+
+## Synthetic dataset
+
+Random Dot Stereo Club v1 by Kennosuke Kurokawa is released under the Creative
+Commons Attribution 4.0 International license (CC BY 4.0), as specified in
+the [Zenodo record](https://doi.org/10.5281/zenodo.24564844). The same terms
+apply to the corresponding synthetic sample data, calibration files, and
+shared meshes distributed in this repository.
+
+Suggested attribution: Kennosuke Kurokawa, *Random Dot Stereo Club — Synthetic
+Active Stereo Dataset*, v1, https://doi.org/10.5281/zenodo.24564844.
+
+[CC BY 4.0 legal text](https://creativecommons.org/licenses/by/4.0/legalcode)
+
+## Skoltech3D comparison figure
+
+`samples/skoltech3d-balancing-board-comparison.png` incorporates material
+from Skoltech3D by Oleg Voynov et al. (CVPR 2023). The figure is shared under
+Creative Commons Attribution-NonCommercial 4.0 International (CC BY-NC 4.0).
+The figure contains rectified and cropped views, and the depth panels are
+colorized and masked to the valid scan region.
+
+[Skoltech3D source and license](https://skoltech3d.appliedai.tech/#license) ·
+[CC BY-NC 4.0 legal text](https://creativecommons.org/licenses/by-nc/4.0/legalcode)
+
+## Other repository content
+
+The terms above apply to the identified materials. This notice grants no
+additional license for the example code or other repository content.
